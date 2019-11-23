@@ -1,0 +1,8 @@
+.result-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.result-item > *:not(:last-of-type) {
+  flex-grow: 1;
+}

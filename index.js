@@ -12,9 +12,15 @@ const resultList = document.getElementById(`result`);
 
 const createResult = (title, body) => {
   const item = document.createElement(`li`);
+  const titleElement = document.createElement(`span`);
+  const bodyElement = document.createElement(`span`);
 
   item.classList.add(`list-group-item`);
-  item.innerText = `${title} - ${body}`;
+  item.classList.add(`result-item`);
+  titleElement.innerText = title;
+  item.appendChild(titleElement);
+  bodyElement.innerText = body;
+  item.appendChild(bodyElement);
 
   return item;
 };
