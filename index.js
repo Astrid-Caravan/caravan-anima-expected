@@ -1,8 +1,13 @@
 const rarityInput = document.getElementById(`rarity`);
+
 const probablyHeroInput = document.getElementById(`probably-hero`);
+const probablyHeroText = document.getElementById(`probably-hero-text`);
 const probablyAnimaInput = document.getElementById(`probably-anima`);
+const probablyAnimaText = document.getElementById(`probably-anima-text`);
 const animaCountInput = document.getElementById(`anima-count`);
+const animaCountText = document.getElementById(`anima-count-text`);
 const gachaCountInput = document.getElementById(`gacha-count`);
+const gachaCountText = document.getElementById(`gacha-count-text`);
 const resultList = document.getElementById(`result`);
 
 const createResult = (title, body) => {
@@ -53,33 +58,28 @@ const calc = () => {
 
 rarityInput.addEventListener(`change`, calc);
 
-probablyHeroInput.addEventListener(`input`, function () {
-  document.getElementById(`probably-hero-value`).innerText = `${this.value}%`;
-});
-probablyHeroInput.addEventListener(`change`, function () {
-  calc();
-});
+const setupNumericControlsEvent = (
+  input, text
+) => {
+  input.addEventListener(`input`, function () {
+    text.value = this.value;
+  });
+  input.addEventListener(`change`, function () {
+    calc();
+  });
+  text.addEventListener(`change`, function () {
+    if (isNaN(this.value)) {
+      // 数値でない
+      this.value = input.value;
+    } else {
+      input.value = this.value;
+    }
+    calc();
+  });
+};
 
-probablyAnimaInput.addEventListener(`input`, function () {
-  document.getElementById(`probably-anima-value`).innerText = `${this.value}%`;
-});
-probablyAnimaInput.addEventListener(`change`, function () {
-  calc();
-});
-
-animaCountInput.addEventListener(`input`, function () {
-  document.getElementById(`anima-count-value`).innerText = `${this.value}%`;
-});
-animaCountInput.addEventListener(`change`, function () {
-  calc();
-});
-
-gachaCountInput.addEventListener(`input`, function () {
-  document.getElementById(`gacha-count-value`).innerText = `${this.value}回`;
-});
-gachaCountInput.addEventListener(`change`, function () {
-  document.getElementById(`gacha-count-value`).innerText = `${this.value}回`;
-  calc();
-});
-
+setupNumericControlsEvent(probablyHeroInput, probablyHeroText);
+setupNumericControlsEvent(probablyAnimaInput, probablyAnimaText);
+setupNumericControlsEvent(animaCountInput, animaCountText);
+setupNumericControlsEvent(gachaCountInput, gachaCountText);
 calc();
