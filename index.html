@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="./styles/index.css">
+  <title>取得アニマ期待値計算機</title>
+</head>
+<body>
+  <main class="container border m-2 p-3 mx-auto">
+    <h1>取得アニマ期待値計算機</h1>
+    <section class="alert alert-info">
+      <h3>説明</h3>
+      <p>
+        　指定された回数でガチャを回した場合の<em>本体を引ける確率</em>と<em>取得できるアニマの期待値</em>を計算します。
+        この時、本体は解放に必要なアニマ数相当として計算します。
+      </p>
+    </section>
+    <hr />
+    <form>
+      <h2>設定</h2>
+      <div class="form-group">
+        <label for="gacha-count">ガチャ回数</label>
+        <div class="input-group mb-3">
+          <input id="gacha-count" type="range" class="form-control form-control-range mr-2" min="1" max="10000" value="10" step="1" />
+          <div class="input-group-append">
+            <span class="input-group-text" id="gacha-count-value">10回</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="rarity">ヒーローのレアリティ</label>
+        <select id="rarity" name="rarity" class="form-control">
+          <option value="10">★1（アニマ 10 個相当）</option>
+          <option value="20">★2（アニマ 20 個相当）</option>
+          <option value="50">★3（アニマ 50 個相当）</option>
+          <option value="100">★4（アニマ 100 個相当）</option>
+          <option value="200" selected>★5（アニマ 200 個相当）</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="probably-hero">ヒーローの出現確率(%)</label>
+        <div class="input-group mb-3">
+          <input id="probably-hero" type="range" class="form-control form-control-range mr-2" min="0" max="100" value="0.5" step="0.1" />
+          <div class="input-group-append">
+            <span class="input-group-text" id="probably-hero-value">0.5%</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="probably-anima">アニマの出現確率(%)</label>
+        <div class="input-group mb-3">
+          <input id="probably-anima" type="range" class="form-control form-control-range mr-2" min="0" max="100" value="30" step="0.1" />
+          <div class="input-group-append">
+            <span class="input-group-text" id="probably-anima-value">30%</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="anima-count">アニマの個数</label>
+        <div class="input-group mb-3">
+          <input id="anima-count" type="range" class="form-control form-control-range mr-2" min="0" max="100" value="10" step="1" />
+          <div class="input-group-append">
+            <span class="input-group-text" id="anima-count-value">10個</span>
+          </div>
+        </div>
+      </div>
+    </form>
+    <hr />
+    <div class="alert alert-success">
+      <h2>結果</h2>
+      <ul id="result" class="list-group"></ul>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="index.js"></script>
+</body>
+</html>
