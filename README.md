@@ -1,11 +1,14 @@
 # caravan-anima-expected
 
 [Caravan Stories](https://caravan-stories.com/)の取得アニマ期待値計算
-<https://astrid-caravan.github.io/caravan-anima-expected/>
 
 ## 概要
 
 　指定された回数でガチャを回した場合に**特定の**ヒーローの本体を引ける確率と取得できるアニマの期待値を計算します。 本体は解放に必要なアニマ数相当として計算します。
+
+## 動作例
+
+<https://astrid-caravan.github.io/caravan-anima-expected/>
 
 ### どういう目的で使うものなの？
 
@@ -31,6 +34,6 @@
 - 目標のヒーローのアニマの出現確率
 - 目標のヒーローのアニマを引いた時に得られるアニマの個数
 
-### 連絡先
+## 連絡先
 
 - [twitter](https://twitter.com/astrid_caravan)
