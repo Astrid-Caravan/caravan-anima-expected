@@ -1,5 +1,4 @@
 const rarityInput = document.getElementById(`rarity`);
-
 const probablyHeroInput = document.getElementById(`probably-hero`);
 const probablyHeroText = document.getElementById(`probably-hero-text`);
 const probablyAnimaInput = document.getElementById(`probably-anima`);
@@ -8,6 +7,7 @@ const animaCountInput = document.getElementById(`anima-count`);
 const animaCountText = document.getElementById(`anima-count-text`);
 const gachaCountInput = document.getElementById(`gacha-count`);
 const gachaCountText = document.getElementById(`gacha-count-text`);
+
 const resultList = document.getElementById(`result`);
 
 const createResult = (title, body) => {
@@ -25,6 +25,7 @@ const createResult = (title, body) => {
   return item;
 };
 
+
 const calc = () => {
   const ph = Number(probablyHeroInput.value) / 100.0;
   const phc = Number(rarityInput.value);
@@ -32,20 +33,12 @@ const calc = () => {
   const pac = Number(animaCountInput.value);
   const count = Number(gachaCountInput.value);
 
-  // 本体を引けない確率
-  const fh = Math.pow(1 - ph, count);
-
-  // 前回までに本体を引けていない確率
-  const f = Math.pow(1 - ph, count - 1);
-  // すでに本体を引いていて得られるアニマが半分になる
-  const s1 = (ph - (ph * f));
-  // まだ本体を引いていないため解放分相当のアニマを得られる
-  const s2 = (ph - (ph * (1 - f)));
-
   while(resultList.firstChild) {
     resultList.firstChild.remove();
   }
 
+  // 本体を引けない確率
+  const fh = Math.pow(1 - ph, count);
   resultList.appendChild(
     createResult(
       `本体を引ける確率`,
@@ -53,7 +46,17 @@ const calc = () => {
     )
   );
 
-  const expected = ((pa * pac) + (s1 * (phc / 2)) + (s2 * phc)) * count;
+  // 各回数でのアニマ取得期待値の総和
+  const expected = Array.from({ length: count }, (_, i) => i + 1).reduce((acc, c) => {
+    // 前回までに本体を引けていない確率
+    const f = Math.pow(1 - ph, c - 1);
+    // すでに本体を引いていて得られるアニマが半分になる
+    const s1 = (ph - (ph * f));
+    // まだ本体を引いていないため解放分相当のアニマを得られる
+    const s2 = (ph - (ph * (1 - f)));
+
+    return acc + (pa * pac) + (s1 * (phc / 2)) + (s2 * phc);
+  });
   resultList.appendChild(
     createResult(
       `入手できるアニマの期待値合計`,
@@ -62,30 +65,27 @@ const calc = () => {
   );
 };
 
+document.querySelectorAll(`input[data-bind-control]`).forEach(range => {
+  const textInput = document.getElementById(range.getAttribute(`data-bind-control`));
+
+  if (textInput) {
+    range.addEventListener(`input`, function () {
+      textInput.value = this.value;
+    });
+    range.addEventListener(`change`, function () {
+      calc();
+    });
+    textInput.addEventListener(`change`, function () {
+      if (isNaN(this.value)) {
+        // 数値でない
+        this.value = range.value;
+      } else {
+        range.value = this.value;
+      }
+      calc();
+    });
+  }
+});
 rarityInput.addEventListener(`change`, calc);
 
-const setupNumericControlsEvent = (
-  input, text
-) => {
-  input.addEventListener(`input`, function () {
-    text.value = this.value;
-  });
-  input.addEventListener(`change`, function () {
-    calc();
-  });
-  text.addEventListener(`change`, function () {
-    if (isNaN(this.value)) {
-      // 数値でない
-      this.value = input.value;
-    } else {
-      input.value = this.value;
-    }
-    calc();
-  });
-};
-
-setupNumericControlsEvent(probablyHeroInput, probablyHeroText);
-setupNumericControlsEvent(probablyAnimaInput, probablyAnimaText);
-setupNumericControlsEvent(animaCountInput, animaCountText);
-setupNumericControlsEvent(gachaCountInput, gachaCountText);
 calc();
